@@ -123,39 +123,49 @@ public class Application {
         return wiseArr.get(wiseArr.size() - 1).getPostNum() + 1;
     }
 
-    // 파일 처리
-    public void save()  {
+    // 데이터 세이브
+    public void save() {
         // 저장할 경로를 선택해야한다. 추후에 시스템 폴더로 지정하여 누구든지 쓸 수 있게 변경 예정
         String saveFilePath = "/Users/gimtaeseob/workspace/saveWiseData.txt";
 
         try {
+            // 파일 생성 및 텍스트 작성을 위한 버퍼드 객체 생성
             BufferedWriter writer = new BufferedWriter(new FileWriter(saveFilePath));
+
+            // 반복문을 통해 wiseArr에 들어있는 데이터를 txt 파일에 순차적 작성
             for (WiseModel wiseModel : wiseArr) {
-                String objectText = String.format("%d,%s,%s", wiseModel.getPostNum(), wiseModel.getAuthor(),
-                        wiseModel.getSentence());
+                String objectText =
+                        String.format("%d,%s,%s", wiseModel.getPostNum(), wiseModel.getAuthor(),
+                                wiseModel.getSentence());
                 System.out.println("objectText = " + objectText);
                 writer.write(objectText);
                 writer.newLine();
             }
+
+            // 버퍼드 객체 close
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    // 데이터 로드
     public void load() {
         String userHome = System.getProperty("user.home");
         String filePath = userHome + "/workspace/saveWiseData.txt";
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(",");
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(filePath));
+            String line = "";
 
-                if (parts.length == 3) {
-                    int loadPostNum = Integer.parseInt(parts[0]);
-                    String loadAuthor = parts[1];
-                    String loadSentence = parts[2];
+            // txt 내 텍스트 전체를 읽을때까지 반복문을 통해 데이터 로드하여 wiseArr에 데이터 저장
+            while ((line = reader.readLine()) != null) {
+                String[] len = line.split(",");
+
+                if (len.length == 3) {
+                    int loadPostNum = Integer.parseInt(len[0]);
+                    String loadAuthor = len[1];
+                    String loadSentence = len[2];
 
                     WiseModel wiseModel = new WiseModel();
                     wiseModel.setPostNum(loadPostNum);
@@ -166,10 +176,9 @@ public class Application {
                 }
             }
 
-            System.out.println("데이터가 로드되었습니다.");
         } catch (IOException e) {
-            System.out.println("로드될 데이터가 없습니다.");
-            e.printStackTrace();
+            System.out.println("로드될 데이터가 없으므로 더미 데이터를 삽입합니다.");
+            testDataAdd();
         }
     }
 
@@ -209,7 +218,5 @@ public class Application {
         model.setAuthor("김태섭5");
         model.setSentence("김김자라김김자라");
         wiseArr.add(model);
-
-
     }
 }
