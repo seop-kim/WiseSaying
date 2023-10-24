@@ -36,6 +36,16 @@ public class Application {
                 System.out.println(postNum + "번 명언이 등록되었습니다.");
             }
 
+            if (input.equals("목록")) {
+                System.out.println("번호\t\t작가\t\t명언");
+                System.out.println("---------------------------");
+
+                for (WiseModel model : wiseArr) {
+                    System.out.printf("%d \t\t %s \t\t %s\n",model.getPostNum(),model.getAuthor(),model.getSentence());
+                }
+
+            }
+
             if (input.equals("종료")) {
                 break;
             }
