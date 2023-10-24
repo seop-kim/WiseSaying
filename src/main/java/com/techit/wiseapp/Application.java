@@ -3,20 +3,21 @@ package com.techit.wiseapp;
 import com.techit.wiseapp.model.WiseModel;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import javax.swing.DesktopManager;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 public class Application {
 
     public static List<WiseModel> wiseArr = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
+        System.out.println("=== 명언 앱 ===");
         Scanner sc = new Scanner(System.in);
         Application app = new Application();
         app.load();
@@ -30,11 +31,11 @@ public class Application {
                 WiseModel wiseModel = new WiseModel();
 
                 int postNum = app.getPostNum();
-                wiseModel.setPostNum(postNum);
+                wiseModel.setId(postNum);
 
                 System.out.print("명언 : ");
                 String addInput = sc.nextLine();
-                wiseModel.setSentence(addInput);
+                wiseModel.setContent(addInput);
 
                 System.out.print("작가 : ");
                 addInput = sc.nextLine();
@@ -51,8 +52,8 @@ public class Application {
                 System.out.println("---------------------------");
 
                 for (WiseModel model : wiseArr) {
-                    System.out.printf("%d \t\t %s \t\t %s\n", model.getPostNum(), model.getAuthor(),
-                            model.getSentence());
+                    System.out.printf("%d \t\t %s \t\t %s\n", model.getId(), model.getAuthor(),
+                            model.getContent());
                 }
             }
 
@@ -63,7 +64,7 @@ public class Application {
                 int index = -1;
 
                 for (int i = 0; i < wiseArr.size(); i++) {
-                    if (wiseArr.get(i).getPostNum() == deleteNum) {
+                    if (wiseArr.get(i).getId() == deleteNum) {
                         index = i;
                         wiseArr.remove(index);
                         System.out.println(deleteNum + "번 명언이 삭제되었습니다.");
@@ -82,7 +83,7 @@ public class Application {
                 int index = -1;
 
                 for (int i = 0; i < wiseArr.size(); i++) {
-                    if (wiseArr.get(i).getPostNum() == updateNum) {
+                    if (wiseArr.get(i).getId() == updateNum) {
                         index = i;
                         break;
                     }
@@ -95,17 +96,21 @@ public class Application {
                 }
 
                 // 명언 수정 부
-                System.out.println("명언(기존) : " + wiseArr.get(index).getSentence());
+                System.out.println("명언(기존) : " + wiseArr.get(index).getContent());
                 System.out.print("명언 : ");
                 input = sc.nextLine();
-                wiseArr.get(index).setSentence(input);
+                wiseArr.get(index).setContent(input);
 
                 // 작가 수정 부
                 System.out.println("작가(기존) : " + wiseArr.get(index).getAuthor());
                 System.out.print("작가 : ");
                 input = sc.nextLine();
                 wiseArr.get(index).setAuthor(input);
+            }
 
+            // build
+            if (input.equals("빌드")) {
+                app.jsonConvert();
             }
 
             // end
@@ -120,7 +125,7 @@ public class Application {
         if (wiseArr.size() == 0) {
             return 1;
         }
-        return wiseArr.get(wiseArr.size() - 1).getPostNum() + 1;
+        return wiseArr.get(wiseArr.size() - 1).getId() + 1;
     }
 
     // 데이터 세이브
@@ -135,9 +140,8 @@ public class Application {
             // 반복문을 통해 wiseArr에 들어있는 데이터를 txt 파일에 순차적 작성
             for (WiseModel wiseModel : wiseArr) {
                 String objectText =
-                        String.format("%d,%s,%s", wiseModel.getPostNum(), wiseModel.getAuthor(),
-                                wiseModel.getSentence());
-                System.out.println("objectText = " + objectText);
+                        String.format("%d,%s,%s", wiseModel.getId(), wiseModel.getAuthor(),
+                                wiseModel.getContent());
                 writer.write(objectText);
                 writer.newLine();
             }
@@ -168,9 +172,9 @@ public class Application {
                     String loadSentence = len[2];
 
                     WiseModel wiseModel = new WiseModel();
-                    wiseModel.setPostNum(loadPostNum);
+                    wiseModel.setId(loadPostNum);
                     wiseModel.setAuthor(loadAuthor);
-                    wiseModel.setSentence(loadSentence);
+                    wiseModel.setContent(loadSentence);
 
                     wiseArr.add(wiseModel);
                 }
@@ -182,41 +186,56 @@ public class Application {
         }
     }
 
+    public void jsonConvert() {
+        JSONArray jsonArr = new JSONArray();
+
+        for (WiseModel model : wiseArr) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("id", model.getId());
+            jsonObject.put("content", model.getContent());
+            jsonObject.put("author", model.getAuthor());
+
+            jsonArr.add(jsonObject);
+        }
+
+        System.out.println(jsonArr.toJSONString());
+    }
+
     public void testDataAdd() {
         WiseModel model = new WiseModel();
-        model.setPostNum(getPostNum());
+        model.setId(getPostNum());
         model.setAuthor("김태섭");
-        model.setSentence("김김자라김김자라");
+        model.setContent("김김자라김김자라");
         wiseArr.add(model);
 
         model = new WiseModel();
-        model.setPostNum(getPostNum());
+        model.setId(getPostNum());
         model.setAuthor("김태섭1");
-        model.setSentence("김김자라김김자라");
+        model.setContent("김김자라김김자라");
         wiseArr.add(model);
 
         model = new WiseModel();
-        model.setPostNum(getPostNum());
+        model.setId(getPostNum());
         model.setAuthor("김태섭2");
-        model.setSentence("김김자라김김자라");
+        model.setContent("김김자라김김자라");
         wiseArr.add(model);
 
         model = new WiseModel();
-        model.setPostNum(getPostNum());
+        model.setId(getPostNum());
         model.setAuthor("김태섭3");
-        model.setSentence("김김자라김김자라");
+        model.setContent("김김자라김김자라");
         wiseArr.add(model);
 
         model = new WiseModel();
-        model.setPostNum(getPostNum());
+        model.setId(getPostNum());
         model.setAuthor("김태섭4");
-        model.setSentence("김김자라김김자라");
+        model.setContent("김김자라김김자라");
         wiseArr.add(model);
 
         model = new WiseModel();
-        model.setPostNum(getPostNum());
+        model.setId(getPostNum());
         model.setAuthor("김태섭5");
-        model.setSentence("김김자라김김자라");
+        model.setContent("김김자라김김자라");
         wiseArr.add(model);
     }
 }
