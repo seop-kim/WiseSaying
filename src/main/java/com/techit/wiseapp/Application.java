@@ -17,6 +17,7 @@ public class Application {
             System.out.print("명령) ");
             String input = sc.nextLine();
 
+            // add
             if (input.equals("등록")) {
                 WiseModel wiseModel = new WiseModel();
 
@@ -36,6 +37,7 @@ public class Application {
                 System.out.println(postNum + "번 명언이 등록되었습니다.");
             }
 
+            // list
             if (input.equals("목록")) {
                 System.out.println("번호\t\t작가\t\t명언");
                 System.out.println("---------------------------");
@@ -43,9 +45,26 @@ public class Application {
                 for (WiseModel model : wiseArr) {
                     System.out.printf("%d \t\t %s \t\t %s\n",model.getPostNum(),model.getAuthor(),model.getSentence());
                 }
-
             }
 
+            // delete
+            if (input.contains("삭제?id=")) {
+                String inputSplit = input.split("=")[1];
+                int deleteNum = Integer.parseInt(inputSplit);
+                int index = 0;
+
+                for (int i = 0; i < wiseArr.size(); i++) {
+                    if (wiseArr.get(i).getPostNum() == deleteNum) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                wiseArr.remove(index);
+                System.out.println(deleteNum + "번 명언이 삭제되었습니다.");
+            }
+
+            // end
             if (input.equals("종료")) {
                 break;
             }
