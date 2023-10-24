@@ -67,6 +67,39 @@ public class Application {
                 }
             }
 
+            // update
+            if (input.contains("수정?id=")) {
+                String inputSplit = input.split("=")[1];
+                int updateNum = Integer.parseInt(inputSplit);
+                int index = -1;
+
+                for (int i = 0; i < wiseArr.size(); i++) {
+                    if (wiseArr.get(i).getPostNum() == updateNum) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                // 수정 부 예외 : 존재하지 않는 명언 번호 입력 시
+                if (index == -1) {
+                    System.out.println(updateNum + "번 명언은 존재하지 않습니다.");
+                    continue;
+                }
+
+                // 명언 수정 부
+                System.out.println("명언(기존) : " + wiseArr.get(index).getSentence());
+                System.out.print("명언 : ");
+                input = sc.nextLine();
+                wiseArr.get(index).setSentence(input);
+
+                // 작가 수정 부
+                System.out.println("작가(기존) : " + wiseArr.get(index).getAuthor());
+                System.out.print("작가 : ");
+                input = sc.nextLine();
+                wiseArr.get(index).setAuthor(input);
+
+            }
+
             // end
             if (input.equals("종료")) {
                 break;
