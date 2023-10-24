@@ -43,7 +43,8 @@ public class Application {
                 System.out.println("---------------------------");
 
                 for (WiseModel model : wiseArr) {
-                    System.out.printf("%d \t\t %s \t\t %s\n",model.getPostNum(),model.getAuthor(),model.getSentence());
+                    System.out.printf("%d \t\t %s \t\t %s\n", model.getPostNum(), model.getAuthor(),
+                            model.getSentence());
                 }
             }
 
@@ -51,17 +52,19 @@ public class Application {
             if (input.contains("삭제?id=")) {
                 String inputSplit = input.split("=")[1];
                 int deleteNum = Integer.parseInt(inputSplit);
-                int index = 0;
+                int index = -1;
 
                 for (int i = 0; i < wiseArr.size(); i++) {
                     if (wiseArr.get(i).getPostNum() == deleteNum) {
                         index = i;
+                        wiseArr.remove(index);
+                        System.out.println(deleteNum + "번 명언이 삭제되었습니다.");
                         break;
                     }
                 }
-
-                wiseArr.remove(index);
-                System.out.println(deleteNum + "번 명언이 삭제되었습니다.");
+                if (index == -1) {
+                    System.out.println(deleteNum + "번 명언은 존재하지 않습니다.");
+                }
             }
 
             // end
