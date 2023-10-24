@@ -1,24 +1,24 @@
 package com.techit.wiseapp.model;
 
 public class WiseModel {
-    int postNum;
-    String sentence;
+    int id;
+    String content;
     String author;
 
-    public int getPostNum() {
-        return postNum;
+    public int getId() {
+        return id;
     }
 
-    public void setPostNum(int postNum) {
-        this.postNum = postNum;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getSentence() {
-        return sentence;
+    public String getContent() {
+        return content;
     }
 
-    public void setSentence(String sentence) {
-        this.sentence = sentence;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getAuthor() {
