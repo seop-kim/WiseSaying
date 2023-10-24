@@ -1,17 +1,25 @@
 package com.techit.wiseapp;
 
 import com.techit.wiseapp.model.WiseModel;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import javax.swing.DesktopManager;
 
 public class Application {
 
     public static List<WiseModel> wiseArr = new ArrayList<>();
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
         Application app = new Application();
+        app.load();
 
         while (true) {
             System.out.print("명령) ");
@@ -102,6 +110,7 @@ public class Application {
 
             // end
             if (input.equals("종료")) {
+                app.save();
                 break;
             }
         }
@@ -112,5 +121,95 @@ public class Application {
             return 1;
         }
         return wiseArr.get(wiseArr.size() - 1).getPostNum() + 1;
+    }
+
+    // 파일 처리
+    public void save()  {
+        // 저장할 경로를 선택해야한다. 추후에 시스템 폴더로 지정하여 누구든지 쓸 수 있게 변경 예정
+        String saveFilePath = "/Users/gimtaeseob/workspace/saveWiseData.txt";
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(saveFilePath));
+            for (WiseModel wiseModel : wiseArr) {
+                String objectText = String.format("%d,%s,%s", wiseModel.getPostNum(), wiseModel.getAuthor(),
+                        wiseModel.getSentence());
+                System.out.println("objectText = " + objectText);
+                writer.write(objectText);
+                writer.newLine();
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void load() {
+        String userHome = System.getProperty("user.home");
+        String filePath = userHome + "/workspace/saveWiseData.txt";
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+
+                if (parts.length == 3) {
+                    int loadPostNum = Integer.parseInt(parts[0]);
+                    String loadAuthor = parts[1];
+                    String loadSentence = parts[2];
+
+                    WiseModel wiseModel = new WiseModel();
+                    wiseModel.setPostNum(loadPostNum);
+                    wiseModel.setAuthor(loadAuthor);
+                    wiseModel.setSentence(loadSentence);
+
+                    wiseArr.add(wiseModel);
+                }
+            }
+
+            System.out.println("데이터가 로드되었습니다.");
+        } catch (IOException e) {
+            System.out.println("로드될 데이터가 없습니다.");
+            e.printStackTrace();
+        }
+    }
+
+    public void testDataAdd() {
+        WiseModel model = new WiseModel();
+        model.setPostNum(getPostNum());
+        model.setAuthor("김태섭");
+        model.setSentence("김김자라김김자라");
+        wiseArr.add(model);
+
+        model = new WiseModel();
+        model.setPostNum(getPostNum());
+        model.setAuthor("김태섭1");
+        model.setSentence("김김자라김김자라");
+        wiseArr.add(model);
+
+        model = new WiseModel();
+        model.setPostNum(getPostNum());
+        model.setAuthor("김태섭2");
+        model.setSentence("김김자라김김자라");
+        wiseArr.add(model);
+
+        model = new WiseModel();
+        model.setPostNum(getPostNum());
+        model.setAuthor("김태섭3");
+        model.setSentence("김김자라김김자라");
+        wiseArr.add(model);
+
+        model = new WiseModel();
+        model.setPostNum(getPostNum());
+        model.setAuthor("김태섭4");
+        model.setSentence("김김자라김김자라");
+        wiseArr.add(model);
+
+        model = new WiseModel();
+        model.setPostNum(getPostNum());
+        model.setAuthor("김태섭5");
+        model.setSentence("김김자라김김자라");
+        wiseArr.add(model);
+
+
     }
 }
