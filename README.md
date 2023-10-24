@@ -251,3 +251,6 @@ data.json 파일의 내용이 갱신되었습니다.
   }
 ]
 ```
+
+#### JSON 변환은 구글의 simple Json 을 사용했다.
+#### 정상적인 사용을 위해서는 https://code.google.com/archive/p/json-simple/downloads 에서 jar 파일을 프로젝트 내에 삽입해야 한다.
