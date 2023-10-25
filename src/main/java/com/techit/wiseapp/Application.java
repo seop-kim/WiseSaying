@@ -1,5 +1,6 @@
 package com.techit.wiseapp;
 
+import com.techit.wiseapp.json.JsonConverter;
 import com.techit.wiseapp.model.WiseModel;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -110,7 +111,9 @@ public class Application {
 
             // build
             if (input.equals("빌드")) {
-                app.jsonConvert();
+                JsonConverter jc = new JsonConverter();
+                JSONArray jsonArray = jc.javaArrToJsonArr(wiseArr);
+                System.out.println("jsonArray = " + jsonArray.toJSONString());
             }
 
             // end
@@ -184,21 +187,6 @@ public class Application {
             System.out.println("로드될 데이터가 없으므로 더미 데이터를 삽입합니다.");
             testDataAdd();
         }
-    }
-
-    public void jsonConvert() {
-        JSONArray jsonArr = new JSONArray();
-
-        for (WiseModel model : wiseArr) {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("id", model.getId());
-            jsonObject.put("content", model.getContent());
-            jsonObject.put("author", model.getAuthor());
-
-            jsonArr.add(jsonObject);
-        }
-
-        System.out.println(jsonArr.toJSONString());
     }
 
     public void testDataAdd() {
