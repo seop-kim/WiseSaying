@@ -23,6 +23,8 @@ public class FIleConverter {
                 String objectText =
                         String.format("%d,%s,%s", wiseModel.getId(), wiseModel.getAuthor(),
                                 wiseModel.getContent());
+
+                System.out.println("objectText = " + objectText);
                 writer.write(objectText);
                 writer.newLine();
             }
@@ -45,7 +47,7 @@ public class FIleConverter {
                 String[] len = line.split(",");
 
                 if (len.length == 3) {
-                    int loadPostNum = Integer.parseInt(len[0]);
+                    Long loadPostNum = Long.parseLong(len[0]);
                     String loadAuthor = len[1];
                     String loadSentence = len[2];
 
