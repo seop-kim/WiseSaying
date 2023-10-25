@@ -1,15 +1,15 @@
 package com.techit.wiseapp.model;
 
 public class WiseModel {
-    int id;
+    Long id;
     String content;
     String author;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
