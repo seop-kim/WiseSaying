@@ -6,6 +6,11 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public class JsonConverter {
+    /**
+     * Java WiseModel Object -> JSONObject
+     * @param wise
+     * @return JSONObject
+     */
     public JSONObject javaToJson(WiseModel wise) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", wise.getId());
