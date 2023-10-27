@@ -12,4 +12,9 @@ public class Input {
         saying.setAuthor(InputView.read());
         return saying;
     }
+
+    public Long deleteSaying(String input) {
+        Long deleteId = Long.parseLong(input.split("=")[1]);
+        return deleteId;
+    }
 }

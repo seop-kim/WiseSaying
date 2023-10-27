@@ -30,6 +30,10 @@ public class SayingRepository {
         return new ArrayList<>(sayings.values());
     }
 
+    public void delete(Long id) {
+        sayings.remove(id);
+    }
+
     private void testDataInit() {
         for (int i = 1; i <= 10; i++) {
             Saying saying = new Saying();

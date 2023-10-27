@@ -26,9 +26,17 @@ public class Application {
                 output.printSayings(repo.findAll());
             }
 
+            if (request.startsWith("삭제?id=")) {
+                Long id = input.deleteSaying(request);
+                repo.delete(id);
+                output.printDelSaying(id);
+            }
+
             if (request.equals("종료")) {
                 break;
             }
+
+
         }
     }
 }

@@ -16,4 +16,8 @@ public class Output {
                     saying.getContent());
         }
     }
+
+    public void printDelSaying(Long id) {
+        System.out.println(id + " 번 명언이 삭제되었습니다.");
+    }
 }
