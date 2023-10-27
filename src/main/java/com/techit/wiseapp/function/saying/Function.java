@@ -6,13 +6,17 @@ import com.techit.wiseapp.json.JsonConverter;
 import com.techit.wiseapp.model.WiseModel;
 import com.techit.wiseapp.repository.SayingRepository;
 import com.techit.wiseapp.validator.SayingValidate;
-import java.util.Scanner;
+import java.util.List;
 import org.json.simple.JSONArray;
 
 public class Function {
     private final SayingRepository repo = SayingRepository.getInstance();
     private final SayingValidate validate = new SayingValidate();
     private final FIleConverter fc = new FIleConverter();
+
+    public Function() {
+        load();
+    }
 
     public void register() {
         WiseModel wiseModel = new WiseModel();
@@ -81,5 +85,10 @@ public class Function {
 
     public void save() {
         fc.save(repo.findAll());
+    }
+
+    private void load() {
+        List<WiseModel> wiseArr = fc.load();
+        repo.load(wiseArr);
     }
 }

@@ -43,4 +43,11 @@ public class SayingRepository {
         id = 0L;
         sayings.clear();
     }
+
+    public void load(List<WiseModel> wiseArr) {
+        for (WiseModel model : wiseArr) {
+            sayings.put(model.getId(), model);
+        }
+        id = wiseArr.get(wiseArr.size() - 1).getId();
+    }
 }
