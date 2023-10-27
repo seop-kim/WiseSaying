@@ -1,34 +1,28 @@
 package com.techit.wiseapp;
 
-import com.techit.wiseapp.model.WiseModel;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import com.techit.wiseapp.model.Saying;
+import com.techit.wiseapp.repository.SayingRepository;
+import com.techit.wiseapp.view.Input;
+import com.techit.wiseapp.view.InputView;
+import com.techit.wiseapp.view.Output;
 
 public class Application {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        List<WiseModel> wiseArr = new ArrayList<>();
+        SayingRepository repo = SayingRepository.getInstance();
+        Input input = new Input();
+        Output output = new Output();
 
         while (true) {
             System.out.print("명령) ");
-            String input = sc.nextLine();
+            String request = InputView.read();
 
-            if (input.equals("등록")) {
-                WiseModel wiseModel = new WiseModel();
-
-                System.out.print("명언 : ");
-                String addInput = sc.nextLine();
-                wiseModel.setSentence(addInput);
-
-                System.out.print("작가 : ");
-                addInput = sc.nextLine();
-                wiseModel.setAuthor(addInput);
-
-                wiseArr.add(wiseModel);
+            if (request.equals("등록")) {
+                Saying saying = input.addSaying(new Saying());
+                repo.save(saying);
+                output.printAddSaying(saying);
             }
 
-            if (input.equals("종료")) {
+            if (request.equals("종료")) {
                 break;
             }
         }
