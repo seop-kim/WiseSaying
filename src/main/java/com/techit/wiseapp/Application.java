@@ -22,6 +22,10 @@ public class Application {
                 output.printAddSaying(saying);
             }
 
+            if (request.equals("목록")) {
+                output.printSayings(repo.findAll());
+            }
+
             if (request.equals("종료")) {
                 break;
             }
