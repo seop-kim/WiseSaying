@@ -3,7 +3,7 @@ package com.techit.wiseapp.input;
 import java.util.Scanner;
 
 public class Input {
-    public String readLine () {
+    public static String read () {
         return new Scanner(System.in).nextLine();
     }
 }
